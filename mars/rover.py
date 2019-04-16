@@ -14,7 +14,9 @@ class Rover(object):
         self.compass = Compass(direction)
 
     def command(self, cmd):
-
+        """
+        Executes rover command, commands out of L R M are ignored
+        """
         for char in cmd:
 
             if char == "L":
@@ -27,7 +29,9 @@ class Rover(object):
                 self.move()
 
     def move(self):
-
+        """
+        Moves rover one matrix cell in current direction
+        """
         direction = self.compass.state
 
         if direction == Compass.N:
@@ -43,4 +47,7 @@ class Rover(object):
             self.position_x -= 1
 
     def state(self):
+        """
+        Stringify current state
+        """
         return "<<< {} {} {}".format(self.position_x, self.position_y, self.compass)

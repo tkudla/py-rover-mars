@@ -16,31 +16,28 @@ class Plateau(object):
         self.upper_y = int(upper_y)
 
     def move(self, rover, where):
-
+        """
+        Moves rover on plateau
+        """
         rover.command(where)
-
-        if self.is_someone_there(rover):
-            raise NasaException("Another rover is sitting there")
-
-        if self.is_lost(rover):
-            raise NasaException("Rover is now outside the plateau")
+        self.check_move(rover)
 
     def accept(self, rover):
-
-        if self.is_lost(rover):
-            raise NasaException("Rover landed outside the plateau and is now lost in space")
-
+        """
+        Accepts rover to rovers list
+        """
+        self.check_move(rover)
         self.rovers.append(rover)
 
-    def is_lost(self, rover):
-
+    def check_move(self, rover):
+        """
+        Checks rover's move, if outside plateau or another rover is there
+        """
         if rover.position_x > self.upper_x or rover.position_x < self.lower_x \
                 or rover.position_y > self.upper_y or rover.position_y < self.lower_y:
-            return True
-
-    def is_someone_there(self, rover):
+            raise NasaException("Rover landed outside the plateau and is now lost in space")
 
         for another in self.rovers:
             if another.position_x == rover.position_x and another.position_y == rover.position_y \
                     and id(rover) != id(another):
-                return True
+                raise NasaException("Another rover is sitting there")

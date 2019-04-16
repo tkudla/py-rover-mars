@@ -11,10 +11,22 @@ class Compass(object):
         self.state = getattr(self, direction)
 
     def left(self):
+        """
+        Moves to left
+        """
         self.state = self.W if self.state == self.N else (self.state - 1)
 
     def right(self):
+        """
+        Moves to right
+        """
         self.state = self.N if self.state == self.W else (self.state + 1)
 
+    def get_direction(self):
+        """
+        Gets current state, N E S W
+        """
+        return {v: k for k, v in self.__class__.__dict__.items()}.get(self.state)
+
     def __str__(self):
-        return str(self.state)
+        return self.get_direction()
